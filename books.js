@@ -3,6 +3,7 @@ const title = document.getElementById('title');
 const author = document.getElementById('author');
 const pages = document.getElementById('pages');
 const read = document.getElementById('read');
+const booksDisplay = document.getElementById('books-display');
 
 let myLibrary = [];
 
@@ -13,7 +14,7 @@ class Book{
     this.pages = pages;
     this.read = read;
     this.info = function() {
-      return (title + ' by ' + author + ', ' + pages + ' pages, ' + status);
+      return (title + ' by ' + author + ', ' + pages + ' pages, ' + read);
     }
   }
 }
@@ -28,5 +29,21 @@ form.addEventListener('submit', function(event) {
   
   const newBook = new Book(title.value, author.value,pages.value, read.value);
   addBookToLibrary(newBook);
+  displayLibrary();
 });
 
+function displayLibrary() {
+  for( let i = 0; i < myLibrary.length; i++ ){
+    let cardDiv = document.createElement('div'),
+        titleDiv = document.createElement('div'),
+        contentDiv = document.createElement('div');
+    cardDiv.classList.add('card');
+    titleDiv.classList.add('card-header');
+    cardDiv.innerHTML = `<span>${myLibrary[i].title}</span>`;
+    cardDiv.appendChild(titleDiv);
+    contentDiv.classList.add('card-body');
+    contentDiv.innerHTML = `<span>${myLibrary[i].info()}</span>`;
+    cardDiv.appendChild(contentDiv);
+    booksDisplay.appendChild(cardDiv);
+  }
+}
