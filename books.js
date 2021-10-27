@@ -14,7 +14,7 @@ class Book{
     this.pages = pages;
     this.read = read;
     this.info = function() {
-      return (title + ' by ' + author + ', ' + pages + ' pages, ' + read);
+      return (title + ' by ' + author + ', ' + pages + ' pages, ' + 'read_status: ' + read);
     }
   }
 }
@@ -33,17 +33,26 @@ form.addEventListener('submit', function(event) {
 });
 
 function displayLibrary() {
+  clearCurrentDisplay();
   for( let i = 0; i < myLibrary.length; i++ ){
     let cardDiv = document.createElement('div'),
         titleDiv = document.createElement('div'),
         contentDiv = document.createElement('div');
     cardDiv.classList.add('card');
     titleDiv.classList.add('card-header');
-    cardDiv.innerHTML = `<span>${myLibrary[i].title}</span>`;
+    titleDiv.innerHTML = `<span>${myLibrary[i].title}</span>`;
     cardDiv.appendChild(titleDiv);
     contentDiv.classList.add('card-body');
     contentDiv.innerHTML = `<span>${myLibrary[i].info()}</span>`;
     cardDiv.appendChild(contentDiv);
     booksDisplay.appendChild(cardDiv);
+  }
+}
+
+function clearCurrentDisplay() {
+  let currentDisplay = booksDisplay.lastElementChild;
+  while( currentDisplay ){
+    booksDisplay.removeChild(currentDisplay);
+    currentDisplay = booksDisplay.lastElementChild;
   }
 }
