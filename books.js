@@ -13,10 +13,15 @@ class Book{
     this.author = author;
     this.pages = pages;
     this.read = read;
+
     this.info = function() {
-      return (title + ' by ' + author + ', ' + pages + ' pages, ' + 'read_status: ' + read);
+      return (title + ' by ' + author + ', ' + pages + ' pages, ' + 'read_status: ');
     }
   }
+}
+
+function bookReadStatus(){
+  return read.value = read.checked;
 }
 
 function addBookToLibrary(book){
