@@ -46,7 +46,16 @@ function displayLibrary() {
     contentDiv.innerHTML = `<span>${myLibrary[i].info()}</span>`;
     cardDiv.appendChild(contentDiv);
     booksDisplay.appendChild(cardDiv);
+    // create Delete Button
+    const bookDeleteButton = document.createElement('button');
+    bookDeleteButton.dataset.index = i;
+    bookDeleteButton.textContent = 'Delete';
+    bookDeleteButton.id = 'book-delete';
+    bookDeleteButton.classList.add('btn');
+    bookDeleteButton.classList.add('btn-danger');
+    cardDiv.appendChild(bookDeleteButton);
   }
+  deleteButton();
 }
 
 function clearCurrentDisplay() {
@@ -54,5 +63,17 @@ function clearCurrentDisplay() {
   while( currentDisplay ){
     booksDisplay.removeChild(currentDisplay);
     currentDisplay = booksDisplay.lastElementChild;
+  }
+}
+
+function deleteButton(){
+  const bookDeleteButton = document.querySelectorAll('#book-delete');
+  if( bookDeleteButton ){
+    Array.from(bookDeleteButton).forEach(function(book){
+      book.addEventListener('click', () => {
+      myLibrary.splice(book.dataset.index, 1);
+      displayLibrary();
+      })
+    })
   }
 }
