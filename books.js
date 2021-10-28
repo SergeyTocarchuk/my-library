@@ -22,22 +22,13 @@ class Book{
           readText = 'Read';
       }
       return readText;
-  }
-
-    // this.info = function() {
-    //   return (title + ' by ' + author + ', ' + pages + ' pages, ' + 'read_status: ' + this.bookRead());
-    // }
+    }
   }
 }
 
 function bookReadStatus(){
   return read.value = read.checked;
 }
-
-// function addBookToLibrary(book){
-//   myLibrary.push(book);
-//   console.log(myLibrary);
-// }
 
 function addBookToLocalStorage(book) {
   if (myLibrary != null){
@@ -51,15 +42,6 @@ function addBookToLocalStorage(book) {
   console.log(myLibrary);
   displayLibrary();
 }
-
-// function populateHtmlFromLocalStorage() {
-//   if (books != null) {
-//     books.forEach(function (book) {
-//       book.template = getHtmlBookTemplate(book);
-//       addBookToDocument(book);
-//     })
-//   }
-// }
 
 form.addEventListener('submit', function(event) {
   event.preventDefault();
