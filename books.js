@@ -13,17 +13,17 @@ class Book{
     this.author = author;
     this.pages = pages;
     this.read = read;
-
-    this.bookRead = function() {
-      let readText = ''
-      if ( this.read === "false" ) {
-          readText = 'Not read yet';
-      } else {
-          readText = 'Read';
-      }
-      return readText;
-    }
   }
+}
+
+function bookRead() {
+  let readText = ''
+  if ( this.read === "false" ) {
+      readText = 'Not read yet';
+  } else {
+      readText = 'Read';
+  }
+  return readText;
 }
 
 function bookReadStatus(){
@@ -46,8 +46,7 @@ function addBookToLocalStorage(book) {
 form.addEventListener('submit', function(event) {
   event.preventDefault();
   
-  const newBook = new Book(title.value, author.value,pages.value, read.value);
-  // addBookToLibrary(newBook);
+  const newBook = new Book(title.value, author.value, pages.value, read.value);
   addBookToLocalStorage(newBook);
 });
 
@@ -56,13 +55,16 @@ function displayLibrary() {
   for( let i = 0; i < myLibrary.length; i++ ){
     let cardDiv = document.createElement('div'),
         titleDiv = document.createElement('div'),
-        contentDiv = document.createElement('div');
+        contentDiv = document.createElement('div'),
+        controlsDiv = document.createElement('div');
     cardDiv.classList.add('card');
     titleDiv.classList.add('card-header');
     titleDiv.innerHTML = `<span>${myLibrary[i].title}</span>`;
     cardDiv.appendChild(titleDiv);
     contentDiv.classList.add('card-body');
-    contentDiv.innerHTML = `<span>${myLibrary[i].author}</span>`;
+    contentDiv.innerHTML = `<span>Author: <b>${myLibrary[i].author}</b></span><br>
+                            <span>pages: <b>${myLibrary[i].pages}</b></span><br>
+                            <span>read_status: <b>${(myLibrary[i].read === 'false') ? 'Not read yet' : 'Already read'}</b></span><br>`;
     cardDiv.appendChild(contentDiv);
     booksDisplay.appendChild(cardDiv);
     // create Delete Button
@@ -72,7 +74,8 @@ function displayLibrary() {
     bookDeleteButton.id = 'book-delete';
     bookDeleteButton.classList.add('btn');
     bookDeleteButton.classList.add('btn-danger');
-    cardDiv.appendChild(bookDeleteButton);
+    bookDeleteButton.classList.add('btn-sm');
+    controlsDiv.appendChild(bookDeleteButton);
     // create Toggle Button for readStatus
     const toggleButton = document.createElement('button');
     toggleButton.dataset.index = i;
@@ -80,7 +83,11 @@ function displayLibrary() {
     toggleButton.id = 'read-status';
     toggleButton.classList.add('btn');
     toggleButton.classList.add('btn-success');
-    cardDiv.appendChild(toggleButton);
+    toggleButton.classList.add('btn-sm');
+    controlsDiv.appendChild(toggleButton);
+    // wrap buttons into div element for further styling
+    controlsDiv.classList.add('controls');
+    cardDiv.appendChild(controlsDiv);
   }
   deleteButton();
   markAsReadButton();
@@ -118,5 +125,12 @@ function markAsReadButton(){
       }
       displayLibrary();
     })
+  })
+}
+
+function showLibrary(){
+  const showMyLibrary = document.getElementsByTagName('a');
+  showMyLibrary.addEventListener('click', () => {
+    console.log(1)
   })
 }
