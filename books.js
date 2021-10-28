@@ -14,8 +14,18 @@ class Book{
     this.pages = pages;
     this.read = read;
 
+    this.bookRead = function() {
+      let readText = ''
+      if ( this.read === "false" ) {
+          readText = 'Not read yet';
+      } else {
+          readText = 'Read';
+      }
+      return readText;
+  }
+
     this.info = function() {
-      return (title + ' by ' + author + ', ' + pages + ' pages, ' + 'read_status: ');
+      return (title + ' by ' + author + ', ' + pages + ' pages, ' + 'read_status: ' + this.bookRead());
     }
   }
 }
@@ -59,8 +69,17 @@ function displayLibrary() {
     bookDeleteButton.classList.add('btn');
     bookDeleteButton.classList.add('btn-danger');
     cardDiv.appendChild(bookDeleteButton);
+    // create Toggle Button for readStatus
+    const toggleButton = document.createElement('button');
+    toggleButton.dataset.index = i;
+    toggleButton.textContent = 'Mark As Read';
+    toggleButton.id = 'read-status';
+    toggleButton.classList.add('btn');
+    toggleButton.classList.add('btn-success');
+    cardDiv.appendChild(toggleButton);
   }
   deleteButton();
+  markAsReadButton();
 }
 
 function clearCurrentDisplay() {
@@ -81,4 +100,19 @@ function deleteButton(){
       })
     })
   }
+}
+
+function markAsReadButton(){
+  const toggleReadStatus = document.querySelectorAll('#read-status');
+  Array.from(toggleReadStatus).forEach(function(book){
+    book.addEventListener('click', () => {
+      let bookId = book.dataset.index;
+      if( myLibrary[bookId].read === 'false' ){
+      myLibrary[bookId].read = 'true';
+      } else {
+        myLibrary[bookId].read = 'false';
+      }
+      displayLibrary();
+    })
+  })
 }
