@@ -5,7 +5,7 @@ const pages = document.getElementById('pages');
 const read = document.getElementById('read');
 const booksDisplay = document.getElementById('books-display');
 
-let myLibrary = [];
+let myLibrary = JSON.parse(window.localStorage.getItem("localStorageBooks"));
 
 class Book{
   constructor(title, author, pages, read){
@@ -24,9 +24,9 @@ class Book{
       return readText;
   }
 
-    this.info = function() {
-      return (title + ' by ' + author + ', ' + pages + ' pages, ' + 'read_status: ' + this.bookRead());
-    }
+    // this.info = function() {
+    //   return (title + ' by ' + author + ', ' + pages + ' pages, ' + 'read_status: ' + this.bookRead());
+    // }
   }
 }
 
@@ -34,17 +34,39 @@ function bookReadStatus(){
   return read.value = read.checked;
 }
 
-function addBookToLibrary(book){
-  myLibrary.push(book);
+// function addBookToLibrary(book){
+//   myLibrary.push(book);
+//   console.log(myLibrary);
+// }
+
+function addBookToLocalStorage(book) {
+  if (myLibrary != null){
+    myLibrary.push(book);
+    window.localStorage.setItem("localStorageBooks", JSON.stringify(myLibrary));
+  } else {
+    myLibrary = [];
+    myLibrary.push(book);
+    window.localStorage.setItem("localStorageBooks", JSON.stringify(myLibrary));
+  }
   console.log(myLibrary);
+  displayLibrary();
 }
+
+// function populateHtmlFromLocalStorage() {
+//   if (books != null) {
+//     books.forEach(function (book) {
+//       book.template = getHtmlBookTemplate(book);
+//       addBookToDocument(book);
+//     })
+//   }
+// }
 
 form.addEventListener('submit', function(event) {
   event.preventDefault();
   
   const newBook = new Book(title.value, author.value,pages.value, read.value);
-  addBookToLibrary(newBook);
-  displayLibrary();
+  // addBookToLibrary(newBook);
+  addBookToLocalStorage(newBook);
 });
 
 function displayLibrary() {
@@ -58,7 +80,7 @@ function displayLibrary() {
     titleDiv.innerHTML = `<span>${myLibrary[i].title}</span>`;
     cardDiv.appendChild(titleDiv);
     contentDiv.classList.add('card-body');
-    contentDiv.innerHTML = `<span>${myLibrary[i].info()}</span>`;
+    contentDiv.innerHTML = `<span>${myLibrary[i].author}</span>`;
     cardDiv.appendChild(contentDiv);
     booksDisplay.appendChild(cardDiv);
     // create Delete Button
