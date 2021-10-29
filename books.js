@@ -5,6 +5,16 @@ const pages = document.getElementById('pages');
 const read = document.getElementById('read');
 const booksDisplay = document.getElementById('books-display');
 
+// add addEventListener to navbar anchors
+const showMyLibrary = document.getElementById('my-library');
+showMyLibrary.addEventListener('click', displayLibrary);
+
+const showBooks = document.getElementById('show-books');
+showBooks.addEventListener('click', displayLibrary);
+
+const addBook = document.getElementById('add-book');
+addBook.addEventListener('click', displayForm);
+
 let myLibrary = JSON.parse(window.localStorage.getItem("localStorageBooks"));
 
 class Book{
@@ -41,6 +51,39 @@ function addBookToLocalStorage(book) {
   }
   console.log(myLibrary);
   displayLibrary();
+}
+
+function displayForm(){
+  let titleDiv = document.createElement('div'),
+      authorDiv = document.createElement('div'),
+      pagesDiv = document.createElement('div'),
+      readStatusDiv = document.createElement('div'),
+      submitFormButton = document.createElement('div');
+  titleDiv.classList.add('form-floating');
+  titleDiv.classList.add('mb-3');
+  titleDiv.innerHTML = `<input type="text" class="form-control" id="title" name="title" required>
+                        <label for="title">Title</label>`;
+  form.appendChild(titleDiv);
+  authorDiv.classList.add('form-floating');
+  authorDiv.classList.add('mb-3');
+  authorDiv.innerHTML = `<input type="text" class="form-control" id="author" name="author" required>
+                        <label for="author">Author</label>`;
+  form.appendChild(authorDiv);
+  pagesDiv.classList.add('form-floating');
+  pagesDiv.classList.add('mb-3');
+  pagesDiv.innerHTML = `<input type="number" class="form-control" id="pages" name="pages" required>
+                        <label for="pages">pages</label>`;
+  form.appendChild(pagesDiv);
+  readStatusDiv.classList.add('form-check');
+  readStatusDiv.classList.add('mb-3');
+  readStatusDiv.innerHTML = `<input class="form-check-input" type="checkbox" id="read" name="read" value="false" onclick="bookReadStatus()">
+                             <label class="form-check-label" for="read">
+                             Read
+                             </label>`;
+  form.appendChild(readStatusDiv);
+  submitFormButton.classList.add('form-check');
+  submitFormButton.innerHTML = `<button type="submit" class="btn btn-warning">Submit</button>`;
+  form.appendChild(submitFormButton);
 }
 
 form.addEventListener('submit', function(event) {
@@ -125,12 +168,5 @@ function markAsReadButton(){
       }
       displayLibrary();
     })
-  })
-}
-
-function showLibrary(){
-  const showMyLibrary = document.getElementsByTagName('a');
-  showMyLibrary.addEventListener('click', () => {
-    console.log(1)
   })
 }
